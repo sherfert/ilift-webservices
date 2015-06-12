@@ -29,7 +29,7 @@ public class Session {
 	private Equipment equipment;
 	
 	@Basic
-	private int repititions;
+	private int repetitions;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
@@ -44,12 +44,12 @@ public class Session {
 
 
 
-	public int getRepititions() {
-		return repititions;
+	public int getRepetitions() {
+		return repetitions;
 	}
 
-	public void setRepititions(int repititions) {
-		this.repititions = repititions;
+	public void setRepetitions(int repititions) {
+		this.repetitions = repititions;
 	}
 
 	public Date getDate() {

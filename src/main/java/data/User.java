@@ -10,18 +10,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@Expose
 	private long id;
 	
 	@Column(unique = true)
+	@Expose
 	private String rfidReaderTag;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private transient List<Session> sessions;
+	private List<Session> sessions;
 
 	public long getId() {
 		return id;
