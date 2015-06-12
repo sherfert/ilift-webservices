@@ -6,7 +6,11 @@
 		transaction-type="RESOURCE_LOCAL">
 
 		<!-- All data classes. -->
+		<class>data.EqType</class>
+		<class>data.Equipment</class>
 		<class>data.Exercise</class>
+		<class>data.Session</class>
+		<class>data.User</class>
 
 		<properties>
 			<!-- Default database login using Oracle for EclipseLink's internal connection 
