@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,14 +21,12 @@ public class PersistenceManager {
      */
     public static final String PERSISTENCE_UNIT_NAME = "ilift-webservices";
     
-    
-    private EntityManagerFactory entityManagerFactory;
+    private static EntityManagerFactory entityManagerFactory;
     
     // TODO remove test main
     public static void main(String[] args) {
-		PersistenceManager pm = new PersistenceManager();
-		pm.connect();
-		EntityManager em = pm.getNewEntityManager();
+		connect();
+		EntityManager em = getNewEntityManager();
 		
 		Exercise e0 = new Exercise("dumbell");
 		em.getTransaction().begin();
@@ -71,10 +68,10 @@ public class PersistenceManager {
     /**
      * Connect to DB
      */
-    public void connect() {
+    public static void connect() {
     	// Connect to database
         try {
-        this.entityManagerFactory = Persistence.
+        entityManagerFactory = Persistence.
                 createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         } catch(PersistenceException e) {
             throw new RuntimeException(e);
@@ -84,14 +81,14 @@ public class PersistenceManager {
     /**
      * @return a new EntityManager that can be used for transactions or searches.
      */
-    EntityManager getNewEntityManager() {
+    static EntityManager getNewEntityManager() {
         return entityManagerFactory.createEntityManager();
     }
     
     /**
      * Disconnects from the database.
      */
-    public void disconnect() {
+    public static void disconnect() {
         // Close everything
         entityManagerFactory.close();
     }

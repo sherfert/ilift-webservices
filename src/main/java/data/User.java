@@ -11,11 +11,11 @@ import javax.persistence.OneToMany;
 
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Session> sessions;
 
@@ -29,6 +29,16 @@ public class User {
 
 	public List<Session> getSessions() {
 		return sessions;
-	}	
+	}
+
+	/**
+	 * Adds a session
+	 * 
+	 * @param session
+	 *            the session
+	 */
+	public void addSession(Session session) {
+		sessions.add(session);
+	}
 
 }

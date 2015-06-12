@@ -2,6 +2,7 @@ package data;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +19,7 @@ public class Equipment {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private EqType type;
 	
-	@Basic
+	@Column(unique = true)
 	private String rfidTag;
 	
 	@Basic
