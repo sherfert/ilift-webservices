@@ -15,6 +15,7 @@ import com.google.gson.annotations.Expose;
 @Entity
 public class User {
 
+	// TODO change primary key, also in Equipment
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Expose

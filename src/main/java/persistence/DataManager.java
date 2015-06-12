@@ -92,8 +92,13 @@ public class DataManager {
 	 * @return the users sessions
 	 */
 	public static List<Session> getSessionOfUserById(long id) {
-		User user = getUserbyId(id);
-		return user.getSessions();
+		EntityManager em = PersistenceManager.getNewEntityManager();
+		try {
+			User user = em.find(User.class, id);
+			return user.getSessions();
+		} finally {
+			em.close();
+		}		
 	}
 
 	public static void createDefaultData() {
