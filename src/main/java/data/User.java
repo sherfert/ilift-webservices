@@ -3,6 +3,7 @@ package data;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +16,9 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
+	
+	@Column(unique = true)
+	private String rfidReaderTag;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Session> sessions;
@@ -25,6 +29,14 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getRfidReaderTag() {
+		return rfidReaderTag;
+	}
+
+	public void setRfidReaderTag(String rfidReaderTag) {
+		this.rfidReaderTag = rfidReaderTag;
 	}
 
 	public List<Session> getSessions() {

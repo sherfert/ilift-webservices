@@ -26,43 +26,10 @@ public class PersistenceManager {
     // TODO remove test main
     public static void main(String[] args) {
 		connect();
-		EntityManager em = getNewEntityManager();
 		
-		Exercise e0 = new Exercise("dumbell");
-		em.getTransaction().begin();
-		em.persist(e0);
-		em.getTransaction().commit();
+		DataManager.createDefaultData();
 		
-		// Attach file
-		Exercise e1 = new Exercise();
-		e1.setId(1);
-		Session s1 = new Session();
-		s1.setExercise(e1);
-		
-		em.getTransaction().begin();
-		em.merge(s1);
-		em.getTransaction().commit();
-		
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Exercise> cqE = cb.createQuery(Exercise.class);
-		Root<Exercise> rootE = cqE.from(Exercise.class);
-		cqE.select(rootE);
-		TypedQuery<Exercise> qE = em.createQuery(cqE);
-		List<Exercise> listE = qE.getResultList();
-		
-		CriteriaQuery<Session> cqS = cb.createQuery(Session.class);
-		Root<Session> rootS = cqS.from(Session.class);
-		cqS.select(rootS);
-		TypedQuery<Session> qS = em.createQuery(cqS);
-		List<Session> listS = qS.getResultList();
-		
-		System.out.println(listE.size());
-		System.out.println(listE.get(0).getId());
-		System.out.println(listE.get(0).getName());
-		System.out.println(listS.size());
-		System.out.println(listS.get(0).getId());
-		
-		em.close();
+		disconnect();
 	}
     
     /**

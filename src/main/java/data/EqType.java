@@ -1,5 +1,6 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Basic;
@@ -27,6 +28,7 @@ public class EqType {
 	
 	public EqType(String name) {
 		this.name = name;
+		availableExercises = new ArrayList<>();
 	}
 
 	public long getId() {
@@ -41,8 +43,8 @@ public class EqType {
 		return availableExercises;
 	}
 
-	public void setAvailableExercises(List<Exercise> availableExercises) {
-		this.availableExercises = availableExercises;
+	public void addAvailableExercise(Exercise availableExercise) {
+		availableExercises.add(availableExercise);
 	}
 
 	public String getName() {
