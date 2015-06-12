@@ -8,6 +8,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import com.google.gson.Gson;
+
 import data.EqType;
 import data.Equipment;
 import data.Exercise;
@@ -48,17 +50,13 @@ public class DataManager {
 	 * 
 	 * @param session
 	 *            the session
-	 * @param userId
-	 *            the user id
 	 */
-	public static void insertSession(Session session, long userId) {
+	public static void insertSession(Session session) {
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
-			User user = em.find(User.class, userId);
-
 			em.getTransaction().begin();
-			user.addSession(session);
+			em.merge(session);
 			em.getTransaction().commit();
 		} finally {
 			em.close();
@@ -145,6 +143,10 @@ public class DataManager {
 			
 			em.persist(user0);
 			em.persist(user1);			
+			
+			Session session = new Session(squat, kettlebell5kg, user0);
+			Gson gson = new Gson();
+			System.out.println(gson.toJson(session));
 			
 			em.getTransaction().commit();
 		} finally {

@@ -9,6 +9,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.google.gson.Gson;
+
 import persistence.DataManager;
 
 /**
@@ -17,6 +19,8 @@ import persistence.DataManager;
  */
 @Path("/user")
 public class UserWS {
+	
+	Gson gson = new Gson();
 	
 	@GET
 	@Path("/{id}")

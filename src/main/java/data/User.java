@@ -21,7 +21,7 @@ public class User {
 	private String rfidReaderTag;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private List<Session> sessions;
+	private transient List<Session> sessions;
 
 	public long getId() {
 		return id;

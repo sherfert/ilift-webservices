@@ -23,15 +23,6 @@ public class PersistenceManager {
     
     private static EntityManagerFactory entityManagerFactory;
     
-    // TODO remove test main
-    public static void main(String[] args) {
-		connect();
-		
-		DataManager.createDefaultData();
-		
-		disconnect();
-	}
-    
     /**
      * Connect to DB
      */

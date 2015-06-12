@@ -4,6 +4,7 @@
 package services;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -14,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import data.Session;
 import persistence.DataManager;
 
 /**
@@ -22,6 +24,8 @@ import persistence.DataManager;
  */
 @Path("/session")
 public class SessionWS {
+	
+	Gson gson = new Gson();
 	
 	@GET
 	@Path("/{id}")
@@ -34,14 +38,16 @@ public class SessionWS {
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void postSession(String body){
-		//TODO create the session somehow from the body
-		//DataManager.insertSession();
+		Session session = gson.fromJson(body, Session.class);
+		DataManager.insertSession(session);
 	}
 	
 	@GET
 	@Path("/byUserId/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@HeaderParam("Access-Control-Allow-Origin:*")
 	public String getSessionsByUserId(@PathParam("uid") long id){
+//		gson.toJson(DataManager.getSessionOfUserById(id));
 		//TODO create the json representation of this shit.
 		System.out.println("request arrived");
 		JsonArray arr = new JsonArray();
