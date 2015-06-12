@@ -9,6 +9,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import persistence.DataManager;
+
 /**
  * @author floriment
  *
@@ -17,10 +19,10 @@ import javax.ws.rs.core.MediaType;
 public class UserWS {
 	
 	@GET
-	@Path("/identify/{id}")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
 	public String identify(@PathParam("id") long id) {
-		return "";
+		return DataManager.getUserbyId(id).toString();
 	}
 	
 }

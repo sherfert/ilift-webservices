@@ -8,7 +8,7 @@ import data.User;
 
 public class DataManager {
 	
-	public static Equipment getEquipmentById(long id) {
+	public static Equipment getEquipmentByTag(String tag) {
 		return null;
 	}
 	

@@ -6,6 +6,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import persistence.DataManager;
+
 /**
  * @author floriment
  *
@@ -14,10 +16,11 @@ import javax.ws.rs.core.MediaType;
 public class EquipmentWS {
 	
 	@GET
-	@Path("/identify/{id}")
+	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String identify(@PathParam("id") long id) {
-		return "";
+	public String identify(@PathParam("id") String id) {
+		//TODO convert it to Json
+		return DataManager.getEquipmentByTag(id).toString();
 	}
 	
 	
