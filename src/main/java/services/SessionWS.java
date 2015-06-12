@@ -35,7 +35,7 @@ public class SessionWS {
 	@Produces(MediaType.APPLICATION_JSON)
 	public void postSession(String body){
 		//TODO create the session somehow from the body
-		DataManager.insertSession();
+		//DataManager.insertSession();
 	}
 	
 	@GET
