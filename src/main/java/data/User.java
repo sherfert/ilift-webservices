@@ -20,7 +20,7 @@ public class User {
 	@Column(unique = true)
 	private String rfidReaderTag;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Session> sessions;
 
 	public long getId() {

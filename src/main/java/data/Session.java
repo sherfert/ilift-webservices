@@ -15,6 +15,9 @@ public class Session {
 	private long id;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
+	private User user;
+	
+	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	private Exercise exercise;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
@@ -22,9 +25,10 @@ public class Session {
 	
 	public Session() {}
 	
-	public Session(Exercise exercise, Equipment equipment) {
+	public Session(Exercise exercise, Equipment equipment, User user) {
 		this.exercise = exercise;
 		this.equipment = equipment;
+		this.user = user;
 	}
 
 
@@ -51,6 +55,14 @@ public class Session {
 
 	public void setEquipment(Equipment equipment) {
 		this.equipment = equipment;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }
