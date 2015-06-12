@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import data.Exercise;
+import data.Session;
 
 public class PersistenceManager {
 	
@@ -35,14 +36,34 @@ public class PersistenceManager {
 		em.persist(e0);
 		em.getTransaction().commit();
 		
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<Exercise> cq = cb.createQuery(Exercise.class);
-		Root<Exercise> root = cq.from(Exercise.class);
-		cq.select(root);
-		TypedQuery<Exercise> q = em.createQuery(cq);
-		List<Exercise> list = q.getResultList();
+		// Attach file
+		Exercise e1 = new Exercise();
+		e1.setId(1);
+		Session s1 = new Session();
+		s1.setExercise(e1);
 		
-		System.out.println(list.get(0).getName()); 
+		em.getTransaction().begin();
+		em.merge(s1);
+		em.getTransaction().commit();
+		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Exercise> cqE = cb.createQuery(Exercise.class);
+		Root<Exercise> rootE = cqE.from(Exercise.class);
+		cqE.select(rootE);
+		TypedQuery<Exercise> qE = em.createQuery(cqE);
+		List<Exercise> listE = qE.getResultList();
+		
+		CriteriaQuery<Session> cqS = cb.createQuery(Session.class);
+		Root<Session> rootS = cqS.from(Session.class);
+		cqS.select(rootS);
+		TypedQuery<Session> qS = em.createQuery(cqS);
+		List<Session> listS = qS.getResultList();
+		
+		System.out.println(listE.size());
+		System.out.println(listE.get(0).getId());
+		System.out.println(listE.get(0).getName());
+		System.out.println(listS.size());
+		System.out.println(listS.get(0).getId());
 		
 		em.close();
 	}
