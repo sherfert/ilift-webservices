@@ -1,5 +1,6 @@
 package persistence;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -52,6 +53,9 @@ public class DataManager {
 	 *            the session
 	 */
 	public static void insertSession(Session session) {
+		// Set current time
+		session.setDate(new Date());
+		
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
