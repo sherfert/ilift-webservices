@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 
 import com.google.gson.Gson;
@@ -93,9 +94,15 @@ public class DataManager {
 	 */
 	public static List<Session> getSessionOfUserById(long id) {
 		EntityManager em = PersistenceManager.getNewEntityManager();
+
 		try {
-			User user = em.find(User.class, id);
-			return user.getSessions();
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<Session> cqS = cb.createQuery(Session.class);
+			Root<Session> rootS = cqS.from(Session.class);
+			Join<Session, User> join = rootS.join("user");
+			cqS.select(rootS).where(cb.equal(join.get("id"), id));
+			TypedQuery<Session> qS = em.createQuery(cqS);
+			return qS.getResultList();
 		} finally {
 			em.close();
 		}		
