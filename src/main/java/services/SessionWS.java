@@ -52,9 +52,7 @@ public class SessionWS {
 		List<Session> sessions = DataManager.getSessionOfUserById(id); 
 		GsonBuilder gbuilder = new GsonBuilder();
 		Gson go = gbuilder.excludeFieldsWithoutExposeAnnotation().create();
-		String response = go.toJson(sessions);
-		System.out.println(response);
-		return response;
+		return go.toJson(sessions);
 	}
 	
 	

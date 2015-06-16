@@ -102,7 +102,7 @@ public class DataManager {
 			Root<User> rootU = cqU.from(User.class);
 			cqU.select(rootU).where(cb.equal(rootU.get("username"), username));
 			TypedQuery<User> qU = em.createQuery(cqU);
-			return qU.getSingleResult ();
+			return qU.getSingleResult();
 		} catch(NoResultException e) {
 			return null;
 		}
