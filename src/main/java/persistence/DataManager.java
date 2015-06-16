@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -40,6 +41,8 @@ public class DataManager {
 			cqE.select(rootE).where(cb.equal(rootE.get("rfidTag"), tag));
 			TypedQuery<Equipment> qE = em.createQuery(cqE);
 			return qE.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
 		} finally {
 			em.close();
 		}
@@ -88,7 +91,7 @@ public class DataManager {
 	 * 
 	 * @param username
 	 *            the username
-	 * @return the user
+	 * @return the user or null, if there is no user with that username
 	 */
 	public static User getUserByUsername(String username) {
 		EntityManager em = PersistenceManager.getNewEntityManager();
@@ -99,8 +102,11 @@ public class DataManager {
 			Root<User> rootU = cqU.from(User.class);
 			cqU.select(rootU).where(cb.equal(rootU.get("username"), username));
 			TypedQuery<User> qU = em.createQuery(cqU);
-			return qU.getSingleResult();
-		} finally {
+			return qU.getSingleResult ();
+		} catch(NoResultException e) {
+			return null;
+		}
+		finally {
 			em.close();
 		}
 	}
@@ -122,6 +128,8 @@ public class DataManager {
 			cqU.select(rootU).where(cb.equal(rootU.get("rfidTag"), rfidTag));
 			TypedQuery<User> qU = em.createQuery(cqU);
 			return qU.getSingleResult();
+		} catch(NoResultException e) {
+			return null;
 		} finally {
 			em.close();
 		}
@@ -165,7 +173,7 @@ public class DataManager {
 
 			// Exercises
 			Exercise bicepsCurl = new Exercise("Biceps curl");
-			Exercise shoulderPress = new Exercise("Shoulder curl");
+			Exercise shoulderPress = new Exercise("Shoulder press");
 
 			Exercise squat = new Exercise("Squat");
 			Exercise tricepCurl = new Exercise("Tricep Curl");
