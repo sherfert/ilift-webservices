@@ -5,6 +5,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
+/**
+ * Manages access to the Database 
+ * 
+ * @author satia
+ */
 public class PersistenceManager {
 	
 	/**
@@ -12,6 +17,9 @@ public class PersistenceManager {
      */
     public static final String PERSISTENCE_UNIT_NAME = "ilift-webservices";
     
+    /**
+     * The entity manager factory
+     */
     private static EntityManagerFactory entityManagerFactory;
     
     /**

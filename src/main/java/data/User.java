@@ -15,7 +15,6 @@ import com.google.gson.annotations.Expose;
 @Entity
 public class User {
 
-	// TODO change primary key, also in Equipment
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Expose
@@ -23,7 +22,19 @@ public class User {
 	
 	@Column(unique = true)
 	@Expose
-	private String rfidReaderTag;
+	private String rfidTag;
+	
+	@Column(unique = true)
+	@Expose
+	private String username;
+
+	public User() {
+	}
+
+	public User(String rfidTag, String username) {
+		this.rfidTag = rfidTag;
+		this.username = username;
+	}
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Session> sessions;
@@ -36,12 +47,20 @@ public class User {
 		this.id = id;
 	}
 
-	public String getRfidReaderTag() {
-		return rfidReaderTag;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setRfidReaderTag(String rfidReaderTag) {
-		this.rfidReaderTag = rfidReaderTag;
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getRfidTag() {
+		return rfidTag;
+	}
+
+	public void setRfidTag(String rfidTag) {
+		this.rfidTag = rfidTag;
 	}
 
 	public List<Session> getSessions() {

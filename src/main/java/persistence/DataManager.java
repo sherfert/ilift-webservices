@@ -10,8 +10,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
 
-import com.google.gson.Gson;
-
 import data.EqType;
 import data.Equipment;
 import data.Exercise;
@@ -56,7 +54,7 @@ public class DataManager {
 	public static void insertSession(Session session) {
 		// Set current time
 		session.setDate(new Date());
-		
+
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
@@ -75,11 +73,55 @@ public class DataManager {
 	 *            the id
 	 * @return the user
 	 */
-	public static User getUserbyId(long id) {
+	public static User getUserById(long id) {
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
 			return em.find(User.class, id);
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
+	 * Gets the user by username
+	 * 
+	 * @param username
+	 *            the username
+	 * @return the user
+	 */
+	public static User getUserByUsername(String username) {
+		EntityManager em = PersistenceManager.getNewEntityManager();
+
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<User> cqU = cb.createQuery(User.class);
+			Root<User> rootU = cqU.from(User.class);
+			cqU.select(rootU).where(cb.equal(rootU.get("username"), username));
+			TypedQuery<User> qU = em.createQuery(cqU);
+			return qU.getSingleResult();
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
+	 * Gets the user by rfidTag
+	 * 
+	 * @param rfidTag
+	 *            the RFID tag
+	 * @return the user
+	 */
+	public static User getUserByTag(String rfidTag) {
+		EntityManager em = PersistenceManager.getNewEntityManager();
+
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<User> cqU = cb.createQuery(User.class);
+			Root<User> rootU = cqU.from(User.class);
+			cqU.select(rootU).where(cb.equal(rootU.get("rfidTag"), rfidTag));
+			TypedQuery<User> qU = em.createQuery(cqU);
+			return qU.getSingleResult();
 		} finally {
 			em.close();
 		}
@@ -105,65 +147,59 @@ public class DataManager {
 			return qS.getResultList();
 		} finally {
 			em.close();
-		}		
+		}
 	}
 
 	public static void createDefaultData() {
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
-			if(!isEmptyDB(em)) {
+			if (!isEmptyDB(em)) {
 				return;
 			}
 			em.getTransaction().begin();
-			
+
 			// Exercises
 			Exercise bicepsCurl = new Exercise("Biceps curl");
 			Exercise shoulderPress = new Exercise("Shoulder curl");
-			
+
 			Exercise squat = new Exercise("Squat");
 			Exercise tricepCurl = new Exercise("Tricep Curl");
-			
+
 			em.persist(bicepsCurl);
 			em.persist(shoulderPress);
 			em.persist(squat);
 			em.persist(tricepCurl);
-			
+
 			// EqTypes
 			EqType dumbbell = new EqType("Dumbbell");
 			EqType kettlebell = new EqType("Kettlebell");
-			
+
 			dumbbell.addAvailableExercise(bicepsCurl);
 			dumbbell.addAvailableExercise(shoulderPress);
 			kettlebell.addAvailableExercise(squat);
 			kettlebell.addAvailableExercise(tricepCurl);
-			
+
 			em.persist(dumbbell);
 			em.persist(kettlebell);
-			
+
 			// TODO correct tags
 			// Equipments
 			Equipment dumbbell5kg = new Equipment(dumbbell, "aszjdguz", 5);
 			Equipment dumbbell10kg = new Equipment(dumbbell, "buzjdguz", 10);
 			Equipment kettlebell5kg = new Equipment(kettlebell, "zsuidguz", 5);
-			
+
 			em.persist(dumbbell5kg);
 			em.persist(dumbbell10kg);
 			em.persist(kettlebell5kg);
-			
+
 			// 2 users
-			User user0 = new User();
-			user0.setRfidReaderTag("218znciu217");
-			User user1 = new User();
-			user1.setRfidReaderTag("2z8zdskjhu7");
-			
-			em.persist(user0);
-			em.persist(user1);			
-			
-			Session session = new Session(squat, kettlebell5kg, user0);
-			Gson gson = new Gson();
-			System.out.println(gson.toJson(session));
-			
+			User omar = new User("", "omrsin");
+			User satia = new User("", "satiaherfert");
+
+			em.persist(omar);
+			em.persist(satia);
+
 			em.getTransaction().commit();
 		} finally {
 			em.close();

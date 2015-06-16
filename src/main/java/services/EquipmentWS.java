@@ -20,11 +20,10 @@ public class EquipmentWS {
 	Gson gson = new Gson();
 	
 	@GET
-	@Path("/{id}")
+	@Path("/{rfid}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String identify(@PathParam("id") String id) {
-		//TODO convert it to Json
-		return DataManager.getEquipmentByTag(id).toString();
+	public String identify(@PathParam("rfid") String rfid) {
+		return gson.toJson(DataManager.getEquipmentByTag(rfid));
 	}
 	
 	

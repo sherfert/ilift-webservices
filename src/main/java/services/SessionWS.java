@@ -15,8 +15,6 @@ import javax.ws.rs.core.MediaType;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import data.Session;
 import persistence.DataManager;
@@ -33,14 +31,15 @@ public class SessionWS {
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String identify(@PathParam("id") long id) {
+	public String show(@PathParam("id") long id) {
+		// XXX not implemented
 		return "";
 	}
 	
 	@POST
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void postSession(String body){
+	public void create(String body){
 		Session session = gson.fromJson(body, Session.class);
 		DataManager.insertSession(session);
 	}
@@ -56,37 +55,6 @@ public class SessionWS {
 		String response = go.toJson(sessions);
 		System.out.println(response);
 		return response;
-//		if(id==10)
-//			return new JsonArray().toString();
-////		gson.toJson(DataManager.getSessionOfUserById(id));
-//		//TODO create the json representation of this shit.
-//		System.out.println("request arrived");
-//		JsonArray arr = new JsonArray();
-//		JsonObject eq = new JsonObject();
-//		eq.addProperty("id", 12332);
-//		eq.addProperty("item", "Item Name");
-//		eq.addProperty("rfid", "hgff56fhgf65jhgfj6");
-//		eq.addProperty("weight", 40);
-//
-//		JsonObject session = new JsonObject();
-//		session.addProperty("date", "12/7/2015");
-//		session.add("equipment", eq);
-//		JsonObject exercise = new JsonObject();
-//		exercise.addProperty("name", "Bango Bongo");
-//		session.add("exercise", exercise);
-//		JsonObject user = new JsonObject();
-//		user.addProperty("id", id);
-//		session.addProperty("user", id);
-//		arr.add(session);
-//		arr.add(session);
-//		arr.add(session);
-//		arr.add(session);
-//		return arr.toString();
-//		//"equipment" -> id,item,rfid,weight
-//		//"exercise" -> name
-//		//"user" -> user obj.
-////		arr.add(new JsonObject());
-////		return DataManager.getSessionOfUserById(id).toString();
 	}
 	
 	
