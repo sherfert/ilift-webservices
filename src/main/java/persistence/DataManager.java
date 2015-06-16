@@ -150,6 +150,10 @@ public class DataManager {
 		}
 	}
 
+	/**
+	 * This method creates some default data, because we don't have an interface
+	 * to create users, add exercises or equipment.
+	 */
 	public static void createDefaultData() {
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
@@ -183,19 +187,18 @@ public class DataManager {
 			em.persist(dumbbell);
 			em.persist(kettlebell);
 
-			// TODO correct tags
 			// Equipments
-			Equipment dumbbell5kg = new Equipment(dumbbell, "aszjdguz", 5);
-			Equipment dumbbell10kg = new Equipment(dumbbell, "buzjdguz", 10);
-			Equipment kettlebell5kg = new Equipment(kettlebell, "zsuidguz", 5);
+			Equipment dumbbell5kg = new Equipment(dumbbell, "4D0055BA45", 5);
+			Equipment dumbbell10kg = new Equipment(dumbbell, "4D0055937C", 10);
+			//Equipment kettlebell5kg = new Equipment(kettlebell, "zsuidguz", 5);
 
 			em.persist(dumbbell5kg);
 			em.persist(dumbbell10kg);
-			em.persist(kettlebell5kg);
+			//em.persist(kettlebell5kg);
 
 			// 2 users
-			User omar = new User("", "omrsin");
-			User satia = new User("", "satiaherfert");
+			User omar = new User("4D00558F46", "omrsin");
+			User satia = new User("4D0055BA26", "satiaherfert");
 
 			em.persist(omar);
 			em.persist(satia);
