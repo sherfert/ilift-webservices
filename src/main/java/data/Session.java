@@ -12,9 +12,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Session {
 	
+	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
@@ -22,15 +25,19 @@ public class Session {
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	private User user;
 	
+	@Expose
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	private Exercise exercise;
 	
+	@Expose
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	private Equipment equipment;
 	
+	@Expose
 	@Basic
 	private int repetitions;
 	
+	@Expose
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	

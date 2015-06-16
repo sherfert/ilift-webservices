@@ -9,19 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Equipment {
 	
+	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
+	@Expose
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private EqType type;
 	
+	@Expose
 	@Column(unique = true)
 	private String rfidTag;
 	
+	@Expose
 	@Basic
 	private double weightKg;
 	

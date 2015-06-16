@@ -11,16 +11,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class EqType {
 
+	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
+	@Expose
 	@OneToMany(cascade = CascadeType.ALL)
 	private List<Exercise> availableExercises;
 	
+	@Expose
 	@Basic
 	private String name;
 	

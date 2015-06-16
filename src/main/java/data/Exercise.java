@@ -6,13 +6,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Exercise {
 
+	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
 	
+	@Expose
 	@Basic
 	private String name;
 
