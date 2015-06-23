@@ -173,13 +173,13 @@ public class DataManager {
 
 			// Exercises
 			Exercise bicepsCurl = new Exercise("Biceps curl");
-			Exercise shoulderPress = new Exercise("Shoulder press");
+			Exercise lateralRaise = new Exercise("Lateral raise");
 
 			Exercise squat = new Exercise("Squat");
 			Exercise tricepCurl = new Exercise("Tricep Curl");
 
 			em.persist(bicepsCurl);
-			em.persist(shoulderPress);
+			em.persist(lateralRaise);
 			em.persist(squat);
 			em.persist(tricepCurl);
 
@@ -188,7 +188,7 @@ public class DataManager {
 			EqType kettlebell = new EqType("Kettlebell");
 
 			dumbbell.addAvailableExercise(bicepsCurl);
-			dumbbell.addAvailableExercise(shoulderPress);
+			dumbbell.addAvailableExercise(lateralRaise);
 			kettlebell.addAvailableExercise(squat);
 			kettlebell.addAvailableExercise(tricepCurl);
 
