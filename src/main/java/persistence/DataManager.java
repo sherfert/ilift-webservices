@@ -14,6 +14,7 @@ import javax.persistence.criteria.Root;
 import data.EqType;
 import data.Equipment;
 import data.Exercise;
+import data.RepetitionObj;
 import data.Session;
 import data.StringLongTuple;
 import data.User;
@@ -187,6 +188,37 @@ public class DataManager {
 			em.close();
 		}
 	}
+	
+	/**
+	 * Get the repetitions as a list with null values for each unique tuple (exerciseName, weight, equipmentType).
+	 * 
+	 * @param name the username
+	 * @return ???
+	 */
+	public static List<RepetitionObj> getRepetitions(String name) {
+		EntityManager em = PersistenceManager.getNewEntityManager();
+
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<RepetitionObj> cqS = cb
+					.createQuery(RepetitionObj.class);
+
+			Root<Session> rootS = cqS.from(Session.class);
+			Join<Session, User> joinUser = rootS.join("user");
+			Join<Session, Exercise> joinExercise = rootS.join("exercise");
+			Join<Session, Equipment> joinEquipment = rootS.join("equipment");
+			Join<Equipment, EqType> joinEqType = joinEquipment.join("type");
+
+			cqS.multiselect(joinExercise.get("name"), joinEquipment.get("weightKg"), joinEqType.get("name"));
+			cqS.where(cb.and(cb.equal(joinUser.get("username"), name)));
+			//cqS.groupBy(joinExercise.get("name"));
+
+			TypedQuery<RepetitionObj> qS = em.createQuery(cqS);
+			return qS.getResultList();
+		} finally {
+			em.close();
+		}
+	}
 
 	/**
 	 * This method creates some default data, because we don't have an interface
@@ -263,5 +295,4 @@ public class DataManager {
 		TypedQuery<EqType> qE = em.createQuery(cqE);
 		return qE.getResultList().isEmpty();
 	}
-
 }

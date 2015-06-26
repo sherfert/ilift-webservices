@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import data.RepetitionObj;
 import data.Session;
 import data.StringLongTuple;
 import persistence.DataManager;
@@ -63,5 +64,16 @@ public class SessionWS {
 	public String getSessionCounts(@PathParam("name") String name) {
 		List<StringLongTuple> sessionCounts = DataManager.getSessionCountsOfUserByName(name);
 		return gson.toJson(sessionCounts);
+	}
+	
+	// TODO count parameter
+	@GET
+	@Path("/repetitions/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@HeaderParam("Access-Control-Allow-Origin:*")
+	public String getRepetitions(@PathParam("name") String name) {
+		List<RepetitionObj> repititions = DataManager.getRepetitions(name);
+		for(RepetitionObj ro : repititions) { System.out.println(ro); }
+		return gson.toJson(repititions);
 	}
 }
