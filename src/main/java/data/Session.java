@@ -24,7 +24,7 @@ public class Session {
 	private long id;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
-	@JoinColumn(name = "user_id")
+	@JoinColumn
 	private User user;
 	
 	@Expose

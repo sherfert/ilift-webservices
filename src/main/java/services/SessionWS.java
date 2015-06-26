@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import data.Session;
+import data.StringLongTuple;
 import persistence.DataManager;
 
 /**
@@ -55,5 +56,12 @@ public class SessionWS {
 		return go.toJson(sessions);
 	}
 	
-	
+	@GET
+	@Path("/sessionCounts/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@HeaderParam("Access-Control-Allow-Origin:*")
+	public String getSessionCounts(@PathParam("name") String name) {
+		List<StringLongTuple> sessionCounts = DataManager.getSessionCountsOfUserByName(name);
+		return gson.toJson(sessionCounts);
+	}
 }

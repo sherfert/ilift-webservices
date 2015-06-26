@@ -15,6 +15,7 @@ import data.EqType;
 import data.Equipment;
 import data.Exercise;
 import data.Session;
+import data.StringLongTuple;
 import data.User;
 
 /**
@@ -41,7 +42,7 @@ public class DataManager {
 			cqE.select(rootE).where(cb.equal(rootE.get("rfidTag"), tag));
 			TypedQuery<Equipment> qE = em.createQuery(cqE);
 			return qE.getSingleResult();
-		} catch(NoResultException e) {
+		} catch (NoResultException e) {
 			return null;
 		} finally {
 			em.close();
@@ -103,10 +104,9 @@ public class DataManager {
 			cqU.select(rootU).where(cb.equal(rootU.get("username"), username));
 			TypedQuery<User> qU = em.createQuery(cqU);
 			return qU.getSingleResult();
-		} catch(NoResultException e) {
+		} catch (NoResultException e) {
 			return null;
-		}
-		finally {
+		} finally {
 			em.close();
 		}
 	}
@@ -128,7 +128,7 @@ public class DataManager {
 			cqU.select(rootU).where(cb.equal(rootU.get("rfidTag"), rfidTag));
 			TypedQuery<User> qU = em.createQuery(cqU);
 			return qU.getSingleResult();
-		} catch(NoResultException e) {
+		} catch (NoResultException e) {
 			return null;
 		} finally {
 			em.close();
@@ -159,6 +159,36 @@ public class DataManager {
 	}
 
 	/**
+	 * Get the count of all different exercises the user has done.
+	 * 
+	 * @param name
+	 *            the username
+	 * @return tuples (exercise name,count) of exercises.
+	 */
+	public static List<StringLongTuple> getSessionCountsOfUserByName(String name) {
+		EntityManager em = PersistenceManager.getNewEntityManager();
+
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<StringLongTuple> cqS = cb
+					.createQuery(StringLongTuple.class);
+
+			Root<Session> rootS = cqS.from(Session.class);
+			Join<Session, User> joinUser = rootS.join("user");
+			Join<Session, Exercise> joinExercise = rootS.join("exercise");
+
+			cqS.multiselect(joinExercise.get("name"), cb.count(rootS));
+			cqS.where(cb.and(cb.equal(joinUser.get("username"), name)));
+			cqS.groupBy(joinExercise.get("name"));
+
+			TypedQuery<StringLongTuple> qS = em.createQuery(cqS);
+			return qS.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
 	 * This method creates some default data, because we don't have an interface
 	 * to create users, add exercises or equipment.
 	 */
@@ -175,12 +205,12 @@ public class DataManager {
 			Exercise bicepsCurl = new Exercise("Biceps curl");
 			Exercise lateralRaise = new Exercise("Lateral raise");
 
-			Exercise squat = new Exercise("Squat");
-			Exercise tricepCurl = new Exercise("Tricep Curl");
+			// Exercise squat = new Exercise("Squat");
+			Exercise tricepCurl = new Exercise("Tricep extension");
 
 			em.persist(bicepsCurl);
 			em.persist(lateralRaise);
-			em.persist(squat);
+			// em.persist(squat);
 			em.persist(tricepCurl);
 
 			// EqTypes
@@ -189,7 +219,8 @@ public class DataManager {
 
 			dumbbell.addAvailableExercise(bicepsCurl);
 			dumbbell.addAvailableExercise(lateralRaise);
-			kettlebell.addAvailableExercise(squat);
+
+			// kettlebell.addAvailableExercise(squat);
 			kettlebell.addAvailableExercise(tricepCurl);
 
 			em.persist(dumbbell);
@@ -198,11 +229,11 @@ public class DataManager {
 			// Equipments
 			Equipment dumbbell5kg = new Equipment(dumbbell, "4D0055BA45", 5);
 			Equipment dumbbell10kg = new Equipment(dumbbell, "4D0055937C", 10);
-			//Equipment kettlebell5kg = new Equipment(kettlebell, "zsuidguz", 5);
+			Equipment kettlebell5kg = new Equipment(kettlebell, "4D00558F46", 5);
 
 			em.persist(dumbbell5kg);
 			em.persist(dumbbell10kg);
-			//em.persist(kettlebell5kg);
+			em.persist(kettlebell5kg);
 
 			// 2 users
 			User omar = new User("4D00558F46", "omrsin");
