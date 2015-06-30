@@ -40,6 +40,10 @@ public class Session {
 	private int repetitions;
 	
 	@Expose
+	@Basic
+	private int badRepetitions;
+	
+	@Expose
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
@@ -59,6 +63,14 @@ public class Session {
 
 	public void setRepetitions(int repititions) {
 		this.repetitions = repititions;
+	}
+
+	public int getBadRepetitions() {
+		return badRepetitions;
+	}
+
+	public void setBadRepetitions(int badRepetitions) {
+		this.badRepetitions = badRepetitions;
 	}
 
 	public Date getDate() {
