@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -190,30 +191,52 @@ public class DataManager {
 	}
 	
 	/**
-	 * Get the repetitions as a list with null values for each unique tuple (exerciseName, weight, equipmentType).
-	 * 
-	 * @param name the username
-	 * @return ???
+	 * @return a list of the names of all exercises
 	 */
-	public static List<RepetitionObj> getRepetitions(String name) {
+	public static List<String> getAllExercises() {
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<RepetitionObj> cqS = cb
-					.createQuery(RepetitionObj.class);
+			CriteriaQuery<String> cqS = cb.createQuery(String.class);
+			Root<Exercise> rootE = cqS.from(Exercise.class);
+			cqS.select(rootE.get("name"));
+			TypedQuery<String> qE = em.createQuery(cqS);
+			return qE.getResultList();
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
+	 * Gets the list of repititions over the last sets for a certain exercise
+	 * from a given user
+	 * 
+	 * @param name
+	 *            the username
+	 * @param exerciseName
+	 *            the name of the exercise
+	 * @param limit
+	 *            the number of last sessions to include
+	 * @return the repetitions in each session
+	 */
+	public static List<Integer> getRepetitions(String name,
+			String exerciseName, int limit) {
+		EntityManager em = PersistenceManager.getNewEntityManager();
+
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<Integer> cqS = cb.createQuery(Integer.class);
 
 			Root<Session> rootS = cqS.from(Session.class);
 			Join<Session, User> joinUser = rootS.join("user");
 			Join<Session, Exercise> joinExercise = rootS.join("exercise");
-			Join<Session, Equipment> joinEquipment = rootS.join("equipment");
-			Join<Equipment, EqType> joinEqType = joinEquipment.join("type");
 
-			cqS.multiselect(joinExercise.get("name"), joinEquipment.get("weightKg"), joinEqType.get("name"));
-			cqS.where(cb.and(cb.equal(joinUser.get("username"), name)));
-			//cqS.groupBy(joinExercise.get("name"));
+			cqS.select(rootS.get("repetitions"));
+			cqS.where(cb.and(cb.equal(joinUser.get("username"), name),
+					cb.equal(joinExercise.get("name"), exerciseName)));
 
-			TypedQuery<RepetitionObj> qS = em.createQuery(cqS);
+			TypedQuery<Integer> qS = em.createQuery(cqS).setMaxResults(limit);
 			return qS.getResultList();
 		} finally {
 			em.close();

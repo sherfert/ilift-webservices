@@ -27,9 +27,9 @@ import persistence.DataManager;
  */
 @Path("/session")
 public class SessionWS {
-	
+
 	Gson gson = new Gson();
-	
+
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -37,43 +37,47 @@ public class SessionWS {
 		// XXX not implemented
 		return "";
 	}
-	
+
 	@POST
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void create(String body){
+	public void create(String body) {
 		Session session = gson.fromJson(body, Session.class);
 		DataManager.insertSession(session);
 	}
-	
+
 	@GET
 	@Path("/byUserId/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@HeaderParam("Access-Control-Allow-Origin:*")
-	public String getSessionsByUserId(@PathParam("uid") long id){
-		List<Session> sessions = DataManager.getSessionOfUserById(id); 
+	public String getSessionsByUserId(@PathParam("uid") long id) {
+		List<Session> sessions = DataManager.getSessionOfUserById(id);
 		GsonBuilder gbuilder = new GsonBuilder();
 		Gson go = gbuilder.excludeFieldsWithoutExposeAnnotation().create();
 		return go.toJson(sessions);
 	}
-	
+
 	@GET
 	@Path("/sessionCounts/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@HeaderParam("Access-Control-Allow-Origin:*")
 	public String getSessionCounts(@PathParam("name") String name) {
-		List<StringLongTuple> sessionCounts = DataManager.getSessionCountsOfUserByName(name);
+		List<StringLongTuple> sessionCounts = DataManager
+				.getSessionCountsOfUserByName(name);
 		return gson.toJson(sessionCounts);
 	}
-	
-	// TODO count parameter
+
 	@GET
-	@Path("/repetitions/{name}")
+	@Path("/repetitions/{name}/{exName}/{limit}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@HeaderParam("Access-Control-Allow-Origin:*")
-	public String getRepetitions(@PathParam("name") String name) {
-		List<RepetitionObj> repititions = DataManager.getRepetitions(name);
-		for(RepetitionObj ro : repititions) { System.out.println(ro); }
+	public String getRepetitions(@PathParam("name") String name,
+			@PathParam("exName") String exName,
+			@PathParam("limit") int limit) {
+		List<Integer> repititions = DataManager.getRepetitions(name, exName, limit);
+		for (Integer ro : repititions) {
+			System.out.println(ro);
+		}
 		return gson.toJson(repititions);
 	}
 }

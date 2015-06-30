@@ -11,19 +11,17 @@ import com.google.gson.Gson;
 import persistence.DataManager;
 
 /**
- * @author floriment
- *
  */
-@Path("/equipment")
-public class EquipmentWS {
+@Path("/exercise")
+public class ExerciseWS {
 	
 	Gson gson = new Gson();
 	
 	@GET
-	@Path("/{rfid}")
+	@Path("/all")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String identify(@PathParam("rfid") String rfid) {
-		return gson.toJson(DataManager.getEquipmentByTag(rfid));
+	public String identify() {
+		return gson.toJson(DataManager.getAllExercises());
 	}
 	
 }
