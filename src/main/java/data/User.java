@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.google.gson.annotations.Expose;
 
@@ -39,6 +40,7 @@ public class User {
 
 	@Expose
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OrderBy("date DESC")
 	private List<Session> sessions;
 
 	public User() {
