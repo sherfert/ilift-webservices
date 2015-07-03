@@ -4,8 +4,11 @@
 package data;
 
 /**
+ * A tuple of String and Long. It is just used
+ *  to build the corresponding json for a certain
+ *  database query and send it to the web client.
+ * 
  * @author satia
- *
  */
 public class StringLongTuple {
 

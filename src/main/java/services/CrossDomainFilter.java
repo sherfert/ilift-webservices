@@ -12,8 +12,9 @@ import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
 
 /**
+ * Cross Domain Filter for the web client.
+ * 
  * @author floriment
- *
  */
 @Provider
 public class CrossDomainFilter implements ContainerResponseFilter {

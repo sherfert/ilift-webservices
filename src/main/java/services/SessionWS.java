@@ -1,6 +1,3 @@
-/**
- * 
- */
 package services;
 
 import java.util.List;
@@ -16,28 +13,34 @@ import javax.ws.rs.core.MediaType;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import data.RepetitionObj;
 import data.Session;
 import data.StringLongTuple;
 import persistence.DataManager;
 
 /**
+ * Web service for the sessions.
+ * 
  * @author floriment
- *
  */
 @Path("/session")
 public class SessionWS {
 
-	Gson gson = new Gson();
+	private Gson gson = new Gson();
 
 	@GET
 	@Path("/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String show(@PathParam("id") long id) {
-		// XXX not implemented
+		// XXX not implemented, not needed any more
 		return "";
 	}
 
+	/**
+	 * Creates a new Session and inserts it in the database.
+	 * 
+	 * @param body
+	 *            the json session object.
+	 */
 	@POST
 	@Path("/")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -46,6 +49,13 @@ public class SessionWS {
 		DataManager.insertSession(session);
 	}
 
+	/**
+	 * Gets sessions by user id.
+	 * 
+	 * @param id
+	 *            the user id
+	 * @return the json session list.
+	 */
 	@GET
 	@Path("/byUserId/{uid}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -57,6 +67,13 @@ public class SessionWS {
 		return go.toJson(sessions);
 	}
 
+	/**
+	 * Gets the session counts of all exercises the user did.
+	 * 
+	 * @param name
+	 *            the username
+	 * @return the session counts per exercise.
+	 */
 	@GET
 	@Path("/sessionCounts/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -67,14 +84,26 @@ public class SessionWS {
 		return gson.toJson(sessionCounts);
 	}
 
+	/**
+	 * Gets the repetitions for a user and exercise.
+	 * 
+	 * @param name
+	 *            the username
+	 * @param exName
+	 *            the exercise name
+	 * @param limit
+	 *            a limit how many last sessions to include TODO check if this
+	 *            selects the last?!?
+	 * @return the repetitions.
+	 */
 	@GET
 	@Path("/repetitions/{name}/{exName}/{limit}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@HeaderParam("Access-Control-Allow-Origin:*")
 	public String getRepetitions(@PathParam("name") String name,
-			@PathParam("exName") String exName,
-			@PathParam("limit") int limit) {
-		List<Integer> repititions = DataManager.getRepetitions(name, exName, limit);
+			@PathParam("exName") String exName, @PathParam("limit") int limit) {
+		List<Integer> repititions = DataManager.getRepetitions(name, exName,
+				limit);
 		for (Integer ro : repititions) {
 			System.out.println(ro);
 		}

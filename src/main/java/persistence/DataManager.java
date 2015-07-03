@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -15,7 +14,6 @@ import javax.persistence.criteria.Root;
 import data.EqType;
 import data.Equipment;
 import data.Exercise;
-import data.RepetitionObj;
 import data.Session;
 import data.StringLongTuple;
 import data.User;
@@ -209,7 +207,7 @@ public class DataManager {
 	}
 
 	/**
-	 * Gets the list of repititions over the last sets for a certain exercise
+	 * Gets the list of repetitions over the last sets for a certain exercise
 	 * from a given user
 	 * 
 	 * @param name
@@ -246,6 +244,8 @@ public class DataManager {
 	/**
 	 * This method creates some default data, because we don't have an interface
 	 * to create users, add exercises or equipment.
+	 * 
+	 * It only creates the data, if the DB is empty.
 	 */
 	public static void createDefaultData() {
 		EntityManager em = PersistenceManager.getNewEntityManager();
@@ -304,7 +304,7 @@ public class DataManager {
 	}
 
 	/**
-	 * Tests wether DB is empty by checking the representative table EqType
+	 * Tests whether DB is empty by checking the representative table EqType
 	 * 
 	 * @param em
 	 *            the EntityManager

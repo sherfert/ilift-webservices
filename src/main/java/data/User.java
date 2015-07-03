@@ -14,6 +14,12 @@ import javax.persistence.OneToMany;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Represents a user. It has an RFID tag (his gym card), a username, and a list
+ * of session the User performed.
+ * 
+ * @author satia
+ */
 @Entity
 @Cacheable(false)
 public class User {
@@ -22,15 +28,15 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Expose
 	private long id;
-	
+
 	@Column(unique = true)
 	@Expose
 	private String rfidTag;
-	
+
 	@Column(unique = true)
 	@Expose
 	private String username;
-	
+
 	@Expose
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private List<Session> sessions;

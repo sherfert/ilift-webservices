@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 
 /**
- * Manages access to the Database 
+ * Manages access to the Database.
  * 
  * @author satia
  */

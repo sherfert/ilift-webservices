@@ -11,34 +11,40 @@ import javax.persistence.ManyToOne;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Represent an actual piece of Equipment, that has a type and a weight, and an
+ * RFID tag.
+ * 
+ * @author satia
+ */
 @Entity
 public class Equipment {
-	
+
 	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
-	
+
 	@Expose
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	private EqType type;
-	
+
 	@Expose
 	@Column(unique = true)
 	private String rfidTag;
-	
+
 	@Expose
 	@Basic
 	private double weightKg;
-	
-	public Equipment() {}
+
+	public Equipment() {
+	}
 
 	public Equipment(EqType type, String rfidTag, double weightKg) {
 		this.type = type;
 		this.rfidTag = rfidTag;
 		this.weightKg = weightKg;
 	}
-
 
 	public long getId() {
 		return id;

@@ -8,6 +8,11 @@ import javax.persistence.Id;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Represent a specific Exercise 
+ * 
+ * @author satia
+ */
 @Entity
 public class Exercise {
 

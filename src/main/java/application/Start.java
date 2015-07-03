@@ -14,16 +14,21 @@ import com.sun.jersey.api.core.ResourceConfig;
 import com.sun.net.httpserver.HttpServer;
 
 /**
+ * This is our main class.
+ * 
  * @author floriment
- *
  */
 public class Start {
-	static final String REST_BASE_URI = "http://localhost:8080/ilift/";
+	// The REST URI
+	public static final String REST_BASE_URI = "http://localhost:8080/ilift/";
 
+	/**
+	 * The main method. Connects to the database and creates default data, if it
+	 * is empty. Afterwards, starts the web services and waits until the user
+	 * presses Enter, to shut down the server.
+	 */
 	public static void main(String[] args) {
-
 		PersistenceManager.connect();
-
 		DataManager.createDefaultData();
 
 		try {

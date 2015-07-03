@@ -15,47 +15,54 @@ import javax.persistence.TemporalType;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Represents one session that can was performed with a specific piece of
+ * equipment. It contains the number of repetitions, and also a count of bad
+ * repetitions (not performed optimally), and a data when the session was
+ * performed. It has the user associated that performed the session.
+ * 
+ * @author satia
+ */
 @Entity
 public class Session {
-	
+
 	@Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private long id;
-	
+
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	@JoinColumn
 	private User user;
-	
+
 	@Expose
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	private Exercise exercise;
-	
+
 	@Expose
 	@ManyToOne(cascade = CascadeType.PERSIST, optional = false)
 	private Equipment equipment;
-	
+
 	@Expose
 	@Basic
 	private int repetitions;
-	
+
 	@Expose
 	@Basic
 	private int badRepetitions;
-	
+
 	@Expose
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
-	
-	public Session() {}
-	
+
+	public Session() {
+	}
+
 	public Session(Exercise exercise, Equipment equipment, User user) {
 		this.exercise = exercise;
 		this.equipment = equipment;
 		this.user = user;
 	}
-
-
 
 	public int getRepetitions() {
 		return repetitions;

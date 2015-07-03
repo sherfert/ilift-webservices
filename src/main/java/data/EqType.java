@@ -13,6 +13,11 @@ import javax.persistence.OneToMany;
 
 import com.google.gson.annotations.Expose;
 
+/**
+ * Represents the Equipment Type which can contain different Exercises.
+ * 
+ * @author satia
+ */
 @Entity
 public class EqType {
 

@@ -20,10 +20,6 @@
 			<property name="javax.persistence.jdbc.url" value="jdbc:h2:./ilift/db;create=true"/>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
 
-			<!-- The database platform is auto-detected by default, if you want to 
-				set a specific platform this can be set. -->
-			<!-- property name=""eclipselink.target-database" value="Oracle" / -->
-
 			<!-- Optimize database writes to use batching. -->
 			<property name="eclipselink.jdbc.batch-writing" value="JDBC" />
 
@@ -36,20 +32,8 @@
 			<property name="eclipselink.jdbc.connections.min" value="64" />
 			<property name="eclipselink.jdbc.connections.max" value="64" />
 
-			<!-- In JSE no server platform is used, if you wish to use this example 
-				is a JEE server with JTA, then you need to set this. -->
-			<!-- property name="eclipselink.target-server" value="WebLogic" / -->
-
 			<!-- Configure cache size. -->
 			<property name="eclipselink.cache.size.default" value="1000" />
-			<!-- If desired, this option would disable caching. -->
-			<!-- property name="eclipselink.cache.shared.default" value="false" / -->
-
-			<!-- If desired, this option would force a JDBC connection to be held 
-				for the duration of an EntityManager, instead of returned to the pool in 
-				between queries/transactions. -->
-			<!-- property name="eclipselink.jdbc.exclusive-connection.mode" value="Always" 
-				/ -->
 
 			<!-- Configure simple SQL logging for demonstration. -->
 			<property name="eclipselink.logging.level" value="FINE" />
