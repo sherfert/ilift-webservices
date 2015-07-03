@@ -236,7 +236,7 @@ public class DataManager {
 
 			TypedQuery<StringLongTuple> qS = em.createQuery(cqS);
 			List<StringLongTuple> list = qS.getResultList();
-			return list.subList(list.size() - limit, list.size());
+			return list.subList(Math.max(list.size() - limit, 0), list.size());
 		} finally {
 			em.close();
 		}
