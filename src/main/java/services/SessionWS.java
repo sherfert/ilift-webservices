@@ -92,8 +92,7 @@ public class SessionWS {
 	 * @param exName
 	 *            the exercise name
 	 * @param limit
-	 *            a limit how many last sessions to include TODO check if this
-	 *            selects the last?!?
+	 *            a limit how many last sessions to include
 	 * @return the repetitions.
 	 */
 	@GET

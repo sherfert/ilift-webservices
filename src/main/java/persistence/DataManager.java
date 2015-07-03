@@ -234,8 +234,9 @@ public class DataManager {
 			cqS.where(cb.and(cb.equal(joinUser.get("username"), name),
 					cb.equal(joinExercise.get("name"), exerciseName)));
 
-			TypedQuery<StringLongTuple> qS = em.createQuery(cqS).setMaxResults(limit);
-			return qS.getResultList();
+			TypedQuery<StringLongTuple> qS = em.createQuery(cqS);
+			List<StringLongTuple> list = qS.getResultList();
+			return list.subList(list.size() - limit, list.size());
 		} finally {
 			em.close();
 		}
