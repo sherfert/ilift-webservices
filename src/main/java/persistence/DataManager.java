@@ -218,23 +218,23 @@ public class DataManager {
 	 *            the number of last sessions to include
 	 * @return the repetitions in each session
 	 */
-	public static List<Integer> getRepetitions(String name,
+	public static List<StringLongTuple> getRepetitions(String name,
 			String exerciseName, int limit) {
 		EntityManager em = PersistenceManager.getNewEntityManager();
 
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<Integer> cqS = cb.createQuery(Integer.class);
+			CriteriaQuery<StringLongTuple> cqS = cb.createQuery(StringLongTuple.class);
 
 			Root<Session> rootS = cqS.from(Session.class);
 			Join<Session, User> joinUser = rootS.join("user");
 			Join<Session, Exercise> joinExercise = rootS.join("exercise");
 
-			cqS.select(rootS.get("repetitions"));
+			cqS.multiselect(rootS.get("date"), cb.sum(rootS.get("repetitions"), rootS.get("badRepetitions")) );
 			cqS.where(cb.and(cb.equal(joinUser.get("username"), name),
 					cb.equal(joinExercise.get("name"), exerciseName)));
 
-			TypedQuery<Integer> qS = em.createQuery(cqS).setMaxResults(limit);
+			TypedQuery<StringLongTuple> qS = em.createQuery(cqS).setMaxResults(limit);
 			return qS.getResultList();
 		} finally {
 			em.close();

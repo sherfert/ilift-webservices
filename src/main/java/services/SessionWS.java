@@ -102,11 +102,8 @@ public class SessionWS {
 	@HeaderParam("Access-Control-Allow-Origin:*")
 	public String getRepetitions(@PathParam("name") String name,
 			@PathParam("exName") String exName, @PathParam("limit") int limit) {
-		List<Integer> repititions = DataManager.getRepetitions(name, exName,
+		List<StringLongTuple> repititions = DataManager.getRepetitions(name, exName,
 				limit);
-		for (Integer ro : repititions) {
-			System.out.println(ro);
-		}
 		return gson.toJson(repititions);
 	}
 }
