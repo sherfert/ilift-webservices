@@ -32,7 +32,7 @@ public class Start {
 		DataManager.createDefaultData();
 
 		try {
-			ResourceConfig rc = new PackagesResourceConfig("");
+			ResourceConfig rc = new PackagesResourceConfig("services");
 
 			rc.getProperties().put(
 					"com.sun.jersey.spi.container.ContainerResponseFilters",
@@ -40,11 +40,19 @@ public class Start {
 
 			HttpServer restServer = HttpServerFactory.create(REST_BASE_URI, rc);
 			restServer.start();
-			System.out.println("Press Enter to stop the server. ");
-			System.in.read();
-			restServer.stop(0);
-			PersistenceManager.disconnect();
-			System.exit(0);
+			System.out.println("Press CTRL+C to stop the server. ");
+			
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+			    public void run() {
+			    	System.out.println("Shutdown hook");
+			    	restServer.stop(0);
+					PersistenceManager.disconnect();
+			    }
+			 });
+			
+			while(true) {}
+			
+			
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
